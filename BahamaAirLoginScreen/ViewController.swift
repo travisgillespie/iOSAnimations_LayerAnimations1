@@ -17,6 +17,16 @@ func delay(seconds seconds: Double, completion:()->()){
     }
 }
 
+// New top level function for login button
+func tintBackgroundColor(layer layer: CALayer, toColor: UIColor){
+    let tint = CABasicAnimation(keyPath: "backgroundColor")
+    tint.fromValue = layer.backgroundColor
+    tint.toValue = toColor.CGColor
+    tint.duration = 1.0
+    layer.addAnimation(tint, forKey: nil)
+    layer.backgroundColor = toColor.CGColor
+}
+
 class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var heading: UILabel!
@@ -69,27 +79,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        
         loginButton.center.y += 30.0
         loginButton.alpha = 0.0
         
         username.layer.position.x -= view.bounds.width
         password.layer.position.x -= view.bounds.width
-        
-        
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        //these 4 lines of code are going to help eliminate the animation calls below
         let flyRight = CABasicAnimation(keyPath: "position.x")
-        //        flyRight.fromValue = -view.bounds.size.width/2
+        
         flyRight.toValue = view.bounds.size.width/2
         flyRight.fromValue = -view.bounds.size.width/2
         flyRight.duration = 0.5
         flyRight.fillMode = kCAFillModeBoth
-        //        flyRight.removedOnCompletion = false
         
         heading.layer.addAnimation(flyRight, forKey: nil)
         
@@ -97,11 +102,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         username.layer.addAnimation(flyRight, forKey: nil)
         username.layer.position.x = view.bounds.size.width/2
         
-        
         flyRight.beginTime = CACurrentMediaTime() + 0.4
         password.layer.addAnimation(flyRight, forKey: nil)
         password.layer.position.x = view.bounds.size.width/2
-        
         
         let fadeIn = CABasicAnimation(keyPath: "opacity")
         fadeIn.fromValue = 0.0
@@ -109,28 +112,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
         fadeIn.duration = 0.5
         fadeIn.fillMode = kCAFillModeBackwards
         
-        //        UIView.animateWithDuration(0.5, delay: 0.5, options: [], animations: {
-        //                self.cloud1.alpha = 1.0
-        //            }, completion: nil)
         fadeIn.beginTime = CACurrentMediaTime() + 0.5
         cloud1.layer.addAnimation(fadeIn, forKey: nil)
         
-        //        UIView.animateWithDuration(0.5, delay: 0.7, options: [], animations: {
-        //                self.cloud2.alpha = 1.0
-        //            }, completion: nil)
         fadeIn.beginTime = CACurrentMediaTime() + 0.7
         cloud2.layer.addAnimation(fadeIn, forKey: nil)
         
-        
-        //        UIView.animateWithDuration(0.5, delay: 0.9, options: [], animations: {
-        //            self.cloud3.alpha = 1.0
-        //            }, completion: nil)
         fadeIn.beginTime = CACurrentMediaTime() + 0.9
         cloud3.layer.addAnimation(fadeIn, forKey: nil)
         
-        //        UIView.animateWithDuration(0.5, delay: 1.1, options: [], animations: {
-        //            self.cloud4.alpha = 1.0
-        //            }, completion: nil)
         fadeIn.beginTime = CACurrentMediaTime() + 1.1
         cloud4.layer.addAnimation(fadeIn, forKey: nil)
         
@@ -165,14 +155,19 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.loginButton.center.y += 60.0
             }, completion: nil)
         
+        //This has been removed and replaced with the code at the bottom of this method
         //3rd user interaction animation: animate button's background color tint
-        self.loginButton.backgroundColor = UIColor(red: 0.85, green: 0.83, blue: 0.45, alpha: 1.0)
+        //        self.loginButton.backgroundColor = UIColor(red: 0.85, green: 0.83, blue: 0.45, alpha: 1.0)
         
         //4th user interaction animation: activity indicator spinner appears
         self.spinner.center = CGPoint(x: 40.0,
             y: self.loginButton.frame.size.height/2)
         self.spinner.alpha = 1.0
         
+        //3rd new code
+        let tintColor = UIColor(red: 0.85, green: 0.83, blue: 0.45, alpha: 1.0)
+        tintBackgroundColor(layer: loginButton.layer,
+            toColor: tintColor)
     }
     
     // MARK: UITextFieldDelegate
@@ -223,14 +218,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         UIView.animateWithDuration(0.2, delay: 0.0, options: [], animations: {
             self.spinner.center = CGPoint(x: -20.0, y: 16.0)
             self.spinner.alpha = 0.0
-            self.loginButton.backgroundColor = UIColor(red: 0.63, green: 0.84, blue: 0.35, alpha: 1.0)
             
-            //              can reverse login button animations here... but placing them in their own method to create a visual that catches the eye
+            //this line of code is being removed and replaced with the code in completion:
+            //                self.loginButton.backgroundColor = UIColor(red: 0.63, green: 0.84, blue: 0.35, alpha: 1.0)
             
-            //                self.loginButton.bounds.size.width -= 80.0
-            //                self.loginButton.center.y -= 60.0
-            
-            }, completion: nil)
+            }, completion: {_ in
+                let tintColor = UIColor(red: 0.63, green: 0.84, blue: 0.35, alpha: 1.0)
+                tintBackgroundColor(layer: self.loginButton.layer, toColor: tintColor)
+        })
         
         //reverse login button animation 1
         UIView.animateWithDuration(1.5, delay: 0.0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0.0, options: [], animations: {
