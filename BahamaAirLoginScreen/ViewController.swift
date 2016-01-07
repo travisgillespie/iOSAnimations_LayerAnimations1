@@ -76,6 +76,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         loginButton.center.y += 30.0
         loginButton.alpha = 0.0
+        
+        username.layer.position.x -= view.bounds.width
+        password.layer.position.x -= view.bounds.width
+        
+        delay(seconds: 5.0, completion: {
+            print("where are the fields?")
+        })
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -83,7 +91,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         //these 4 lines of code are going to help eliminate the animation calls below
         let flyRight = CABasicAnimation(keyPath: "position.x")
-        flyRight.fromValue = -view.bounds.size.width/2
+        //        flyRight.fromValue = -view.bounds.size.width/2
         flyRight.toValue = view.bounds.size.width/2
         flyRight.duration = 0.5
         flyRight.fillMode = kCAFillModeBoth
@@ -91,13 +99,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         flyRight.beginTime = CACurrentMediaTime() + 0.3
         username.layer.addAnimation(flyRight, forKey: nil)
-        
-        //Replace animation call w/ the two lines of code below it
-        //        UIView.animateWithDuration(0.5, delay: 0.4,
-        //            usingSpringWithDamping: 0.6, initialSpringVelocity: 0.0,
-        //            options: [], animations: {
-        //                self.password.center.x += self.view.bounds.width
-        //            }, completion: nil)
         
         flyRight.beginTime = CACurrentMediaTime() + 0.4
         password.layer.addAnimation(flyRight, forKey: nil)
