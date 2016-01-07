@@ -104,6 +104,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         flyRight.fromValue = -view.bounds.size.width/2
         flyRight.duration = 0.5
         flyRight.fillMode = kCAFillModeBoth
+        flyRight.delegate = self
         
         heading.layer.addAnimation(flyRight, forKey: nil)
         
@@ -266,6 +267,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 
         })
         
+    }
+    
+    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+        print("animation did finish")
     }
     
 }
