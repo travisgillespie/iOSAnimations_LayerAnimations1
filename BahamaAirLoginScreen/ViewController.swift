@@ -156,10 +156,10 @@ class ViewController: UIViewController {
                 self.loginButton.alpha = 1.0
             }, completion: nil)
         
-        animateCloud(cloud1)
-        animateCloud(cloud2)
-        animateCloud(cloud3)
-        animateCloud(cloud4)
+        animateCloud(cloud1.layer)
+        animateCloud(cloud2.layer)
+        animateCloud(cloud3.layer)
+        animateCloud(cloud4.layer)
         
         let flyLeft = CABasicAnimation(keyPath: "position.x")
         flyLeft.fromValue = info.layer.position.x + view.frame.size.width
@@ -280,22 +280,20 @@ class ViewController: UIViewController {
             }, completion: nil)
     }
     
-    func animateCloud(cloud: UIImageView){
-        let cloudSpeed = 60.0 / view.frame.size.width
-        let duration = (view.frame.size.width - cloud.frame.origin.x) * cloudSpeed
+    func animateCloud(layer: CALayer) {
+        //1
+        let cloudSpeed = 60.0 / Double(view.layer.frame.size.width)
+        let duration: NSTimeInterval = Double(view.layer.frame.size.width - layer.frame.origin.x) * cloudSpeed
         
-        UIView.animateWithDuration(NSTimeInterval(duration), delay: 0.0, options: .CurveLinear, animations: {
-            cloud.frame.origin.x = self.view.frame.size.width
-            }, completion: {_ in
-                cloud.frame.origin.x = -cloud.frame.size.width
-                self.animateCloud(cloud)
-                //                self.animateCloud(cloud2)
-                //                self.animateCloud(cloud3)
-                //                self.animateCloud(cloud4)
-                
-                
-        })
+        //2
+        let cloudMove = CABasicAnimation(keyPath: "position.x")
+        cloudMove.duration = duration
+        cloudMove.toValue = self.view.bounds.size.width + layer.bounds.width/2
+        cloudMove.delegate = self
+        cloudMove.setValue("cloud", forKey: "name")
+        cloudMove.setValue(layer, forKey: "layer")
         
+        layer.addAnimation(cloudMove, forKey: nil)
     }
     
     override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
@@ -313,6 +311,19 @@ class ViewController: UIViewController {
                 pulse.duration = 0.25
                 layer?.addAnimation(pulse, forKey: nil)
             }
+            
+            if name == "cloud" {
+                if let layer = anim.valueForKey("layer") as? CALayer {
+                    anim.setValue(nil, forKey: "layer")
+                    
+                    layer.position.x = -layer.bounds.width/2
+                    delay(seconds: 0.5, completion: {
+                        self.animateCloud(layer)
+                    })
+                }
+                
+            }
+            
         }
     }
     
