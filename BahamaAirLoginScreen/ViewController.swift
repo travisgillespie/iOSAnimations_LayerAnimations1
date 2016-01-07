@@ -57,6 +57,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     var statusPosition = CGPoint.zero
     
+    let info = UILabel()
+    
     // MARK view controller methods
     
     override func viewDidLoad() {
@@ -82,6 +84,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         status.addSubview(label)
         
         statusPosition = status.center
+        
+        info.frame = CGRect(x: 0.0, y: loginButton.center.y + 55.0, width: view.frame.size.width, height: 30)
+        info.backgroundColor = UIColor.clearColor()
+        info.font = UIFont(name: "HelveticaNeue", size: 12.0)
+        info.textAlignment = .Center
+        info.textColor = UIColor.whiteColor()
+        info.text = "Tap on a field and enter username and password"
+        view.insertSubview(info, belowSubview: loginButton)
         
     }
     
@@ -150,6 +160,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         animateCloud(cloud2)
         animateCloud(cloud3)
         animateCloud(cloud4)
+        
+        let flyLeft = CABasicAnimation(keyPath: "position.x")
+        flyLeft.fromValue = info.layer.position.x + view.frame.size.width
+        flyLeft.toValue = info.layer.position.x
+        flyLeft.duration = 5.0
+        info.layer.addAnimation(flyLeft, forKey: "infoappear")
     }
     
     
