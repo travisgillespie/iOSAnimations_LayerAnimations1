@@ -166,6 +166,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         flyLeft.toValue = info.layer.position.x
         flyLeft.duration = 5.0
         info.layer.addAnimation(flyLeft, forKey: "infoappear")
+        
+        let fadeLabelIn = CABasicAnimation(keyPath: "opacity")
+        fadeLabelIn.fromValue = 0.2
+        fadeLabelIn.toValue = 1.0
+        fadeLabelIn.duration = 4.5
+        info.layer.addAnimation(fadeLabelIn, forKey: "fadein")
     }
     
     
