@@ -93,16 +93,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let flyRight = CABasicAnimation(keyPath: "position.x")
         //        flyRight.fromValue = -view.bounds.size.width/2
         flyRight.toValue = view.bounds.size.width/2
+        flyRight.fromValue = -view.bounds.size.width/2
         flyRight.duration = 0.5
         flyRight.fillMode = kCAFillModeBoth
-        flyRight.removedOnCompletion = false
+        //        flyRight.removedOnCompletion = false
+        
         heading.layer.addAnimation(flyRight, forKey: nil)
         
         flyRight.beginTime = CACurrentMediaTime() + 0.3
         username.layer.addAnimation(flyRight, forKey: nil)
+        username.layer.position.x = view.bounds.size.width/2
+        
         
         flyRight.beginTime = CACurrentMediaTime() + 0.4
         password.layer.addAnimation(flyRight, forKey: nil)
+        password.layer.position.x = view.bounds.size.width/2
+        
         
         UIView.animateWithDuration(0.5, delay: 0.5, options: [], animations: {
             self.cloud1.alpha = 1.0
