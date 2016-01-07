@@ -36,7 +36,7 @@ func roundCorners(layer layer: CALayer, toRadius: CGFloat){
     layer.cornerRadius = toRadius
 }
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController {
     
     @IBOutlet weak var heading: UILabel!
     @IBOutlet weak var username: UITextField!
@@ -172,6 +172,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         fadeLabelIn.toValue = 1.0
         fadeLabelIn.duration = 4.5
         info.layer.addAnimation(fadeLabelIn, forKey: "fadein")
+        
+        username.delegate = self
+        password.delegate = self
     }
     
     
@@ -313,4 +316,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+}
+
+extension ViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(textField: UITextField) {
+        print(info.layer.animationKeys())
+        info.layer.removeAnimationForKey("infoappear")
+    }
 }
