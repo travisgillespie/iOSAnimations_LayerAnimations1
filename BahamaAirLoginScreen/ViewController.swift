@@ -69,10 +69,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        cloud1.alpha = 0.0
-        cloud2.alpha = 0.0
-        cloud3.alpha = 0.0
-        cloud4.alpha = 0.0
         
         loginButton.center.y += 30.0
         loginButton.alpha = 0.0
@@ -80,9 +76,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         username.layer.position.x -= view.bounds.width
         password.layer.position.x -= view.bounds.width
         
-        delay(seconds: 5.0, completion: {
-            print("where are the fields?")
-        })
         
     }
     
@@ -110,18 +103,36 @@ class ViewController: UIViewController, UITextFieldDelegate {
         password.layer.position.x = view.bounds.size.width/2
         
         
-        UIView.animateWithDuration(0.5, delay: 0.5, options: [], animations: {
-            self.cloud1.alpha = 1.0
-            }, completion: nil)
-        UIView.animateWithDuration(0.5, delay: 0.7, options: [], animations: {
-            self.cloud2.alpha = 1.0
-            }, completion: nil)
-        UIView.animateWithDuration(0.5, delay: 0.9, options: [], animations: {
-            self.cloud3.alpha = 1.0
-            }, completion: nil)
-        UIView.animateWithDuration(0.5, delay: 1.1, options: [], animations: {
-            self.cloud4.alpha = 1.0
-            }, completion: nil)
+        let fadeIn = CABasicAnimation(keyPath: "opacity")
+        fadeIn.fromValue = 0.0
+        fadeIn.toValue = 1.0
+        fadeIn.duration = 0.5
+        fadeIn.fillMode = kCAFillModeBackwards
+        
+        //        UIView.animateWithDuration(0.5, delay: 0.5, options: [], animations: {
+        //                self.cloud1.alpha = 1.0
+        //            }, completion: nil)
+        fadeIn.beginTime = CACurrentMediaTime() + 0.5
+        cloud1.layer.addAnimation(fadeIn, forKey: nil)
+        
+        //        UIView.animateWithDuration(0.5, delay: 0.7, options: [], animations: {
+        //                self.cloud2.alpha = 1.0
+        //            }, completion: nil)
+        fadeIn.beginTime = CACurrentMediaTime() + 0.7
+        cloud2.layer.addAnimation(fadeIn, forKey: nil)
+        
+        
+        //        UIView.animateWithDuration(0.5, delay: 0.9, options: [], animations: {
+        //            self.cloud3.alpha = 1.0
+        //            }, completion: nil)
+        fadeIn.beginTime = CACurrentMediaTime() + 0.9
+        cloud3.layer.addAnimation(fadeIn, forKey: nil)
+        
+        //        UIView.animateWithDuration(0.5, delay: 1.1, options: [], animations: {
+        //            self.cloud4.alpha = 1.0
+        //            }, completion: nil)
+        fadeIn.beginTime = CACurrentMediaTime() + 1.1
+        cloud4.layer.addAnimation(fadeIn, forKey: nil)
         
         UIView.animateWithDuration(0.5, delay: 0.5,
             usingSpringWithDamping: 0.2, initialSpringVelocity: 0.0,
