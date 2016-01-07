@@ -27,6 +27,15 @@ func tintBackgroundColor(layer layer: CALayer, toColor: UIColor){
     layer.backgroundColor = toColor.CGColor
 }
 
+func roundCorners(layer layer: CALayer, toRadius: CGFloat){
+    let round = CABasicAnimation(keyPath: "cornerRadius")
+    round.fromValue = layer.cornerRadius
+    round.toValue = toRadius
+    round.duration = 0.33
+    layer.addAnimation(round, forKey: nil)
+    layer.cornerRadius = toRadius
+}
+
 class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var heading: UILabel!
@@ -168,6 +177,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let tintColor = UIColor(red: 0.85, green: 0.83, blue: 0.45, alpha: 1.0)
         tintBackgroundColor(layer: loginButton.layer,
             toColor: tintColor)
+        
+        roundCorners(layer: loginButton.layer, toRadius: 25.0)
     }
     
     // MARK: UITextFieldDelegate
@@ -225,6 +236,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             }, completion: {_ in
                 let tintColor = UIColor(red: 0.63, green: 0.84, blue: 0.35, alpha: 1.0)
                 tintBackgroundColor(layer: self.loginButton.layer, toColor: tintColor)
+                roundCorners(layer: self.loginButton.layer, toRadius: 10.0)
         })
         
         //reverse login button animation 1
@@ -236,7 +248,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         UIView.animateWithDuration(0.33, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: [], animations: {
             self.loginButton.center.y -= 60.0
             }, completion: nil)
-        
     }
     
     func animateCloud(cloud: UIImageView){
