@@ -175,7 +175,11 @@ class ViewController: UIViewController {
         let flyLeft = CABasicAnimation(keyPath: "position.x")
         flyLeft.fromValue = info.layer.position.x + view.frame.size.width
         flyLeft.toValue = info.layer.position.x
-        flyLeft.duration = 5.0
+        flyLeft.duration = 2.5
+        flyLeft.repeatCount = 2.5
+//        flyLeft.repeatDuration = 8.0
+        flyLeft.autoreverses = true
+        
         info.layer.addAnimation(flyLeft, forKey: "infoappear")
         
         let fadeLabelIn = CABasicAnimation(keyPath: "opacity")
