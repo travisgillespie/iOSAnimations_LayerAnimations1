@@ -125,7 +125,7 @@ class ViewController: UIViewController {
         formGroup.beginTime = CACurrentMediaTime() + 0.3
         username.layer.addAnimation(formGroup, forKey: nil)
         
-        formGroup.setValue(password.layer, forKey: "name")
+        formGroup.setValue(password.layer, forKey: "layer")
         formGroup.beginTime = CACurrentMediaTime() + 0.4
         password.layer.addAnimation(formGroup, forKey: nil)
         
@@ -318,10 +318,12 @@ class ViewController: UIViewController {
                 let layer = anim.valueForKeyPath("layer") as? CALayer
                 anim.setValue(nil, forKey: "layer")
                 
-                let pulse = CABasicAnimation(keyPath: "transform.scale")
+                let pulse = CASpringAnimation(keyPath: "transform.scale")
+                pulse.damping = 7.5
+                pulse.duration = pulse.settlingDuration
+//                print("duration: \(pulse.duration)")
                 pulse.fromValue = 1.25
                 pulse.toValue = 1.0
-                pulse.duration = 0.25
                 layer?.addAnimation(pulse, forKey: nil)
             }
             
