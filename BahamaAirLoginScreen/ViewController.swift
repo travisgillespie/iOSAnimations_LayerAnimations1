@@ -97,7 +97,7 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -120,7 +120,7 @@ class ViewController: UIViewController {
         
         formGroup.delegate = self
         formGroup.setValue("form", forKey: "name")
-
+        
         formGroup.setValue(username.layer, forKey: "layer")
         formGroup.beginTime = CACurrentMediaTime() + 0.3
         username.layer.addAnimation(formGroup, forKey: nil)
@@ -165,7 +165,7 @@ class ViewController: UIViewController {
         let fade = CABasicAnimation(keyPath: "opacity")
         fade.fromValue = 0.0
         fade.toValue = 1.0
-
+        
         groupAnimation.animations = [scaleDown, rotate, fade]
         loginButton.layer.addAnimation(groupAnimation, forKey: nil)
         
@@ -318,10 +318,12 @@ class ViewController: UIViewController {
                 let layer = anim.valueForKeyPath("layer") as? CALayer
                 anim.setValue(nil, forKey: "layer")
                 
-                let pulse = CABasicAnimation(keyPath: "transform.scale")
+                let pulse = CASpringAnimation(keyPath: "transform.scale")
+                pulse.damping = 7.5
+                pulse.duration = pulse.settlingDuration
+                //                print("duration: \(pulse.duration)")
                 pulse.fromValue = 1.25
                 pulse.toValue = 1.0
-                pulse.duration = 0.25
                 layer?.addAnimation(pulse, forKey: nil)
             }
             
