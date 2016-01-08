@@ -149,6 +149,8 @@ class ViewController: UIViewController {
         groupAnimation.beginTime = CACurrentMediaTime() + 0.5
         groupAnimation.duration = 0.5
         groupAnimation.fillMode = kCAFillModeBackwards
+        groupAnimation.timingFunction = CAMediaTimingFunction(
+            name: kCAMediaTimingFunctionEaseIn)
         
         let scaleDown = CABasicAnimation(keyPath: "transform.scale")
         scaleDown.fromValue = 1.5
