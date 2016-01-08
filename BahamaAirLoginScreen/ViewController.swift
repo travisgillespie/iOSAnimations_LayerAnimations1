@@ -125,7 +125,7 @@ class ViewController: UIViewController {
         formGroup.beginTime = CACurrentMediaTime() + 0.3
         username.layer.addAnimation(formGroup, forKey: nil)
         
-        formGroup.setValue(password.layer, forKey: "name")
+        formGroup.setValue(password.layer, forKey: "layer")
         formGroup.beginTime = CACurrentMediaTime() + 0.4
         password.layer.addAnimation(formGroup, forKey: nil)
         
