@@ -34,7 +34,7 @@ class ViewController: UIViewController {
     let spinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
     let status = UIImageView(image: UIImage(named: "banner"))
     let label = UILabel()
-    let messages = ["Connecting ...", "Authorizing ...", "Sending credentials ...", "Failed"]
+  let messages = ["Connecting ...", "Authorizing ...", "Sending credentials ...", "Failed"]
     
     var statusPosition = CGPoint.zero
     
@@ -180,7 +180,7 @@ class ViewController: UIViewController {
         UIView.animateWithDuration(1.5, delay: 0.0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0.0, options: [], animations: {
             self.loginButton.bounds.size.width += 80.0
             }, completion: {_ in
-                self.showMessage(index: 1)
+                self.showMessage(index: 0)
         })
         
         //2nd user interaction animation: button moves down 60 points
@@ -197,6 +197,26 @@ class ViewController: UIViewController {
         let tintColor = UIColor(red: 0.85, green: 0.83, blue: 0.45, alpha: 1.0)
         tintBackgroundColor(layer: loginButton.layer, toColor: tintColor)
         roundCorners(layer: loginButton.layer, toRadius: 25.0)
+        
+        let ballon = CALayer()
+        ballon.contents = UIImage(named: "balloon")!.CGImage
+        ballon.frame = CGRect(x: 50.0, y: 0.0,
+            width: 50.0, height: 65.0)
+        //changed username.layer to loginButton.layer
+        view.layer.insertSublayer(ballon, below: username.layer)
+        
+        let flight = CAKeyframeAnimation(keyPath: "position")
+        flight.duration = 12.0
+        
+        flight.values = [
+            CGPoint(x: -50.0, y: 0.0),
+            CGPoint(x: view.frame.width+50, y: 160.0),
+            CGPoint(x: -50.0, y: loginButton.center.y)
+            ].map { NSValue(CGPoint: $0) }
+        flight.keyTimes = [0.0, 0.5, 1.0]
+        
+        ballon.addAnimation(flight, forKey: nil)
+        ballon.position = CGPoint(x: -50.0, y: loginButton.center.y)
     }
     
     // MARK: UITextFieldDelegate
@@ -213,7 +233,7 @@ class ViewController: UIViewController {
             self.status.hidden = false
             }, completion: {_ in
                 //transition completion
-                delay(seconds: 0.2) {
+                delay(seconds: 2.0) {
                     if index < self.messages.count-1{
                         self.removeMessage(index: index)
                     } else {
