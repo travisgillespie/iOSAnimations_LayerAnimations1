@@ -321,7 +321,7 @@ class ViewController: UIViewController {
                 let pulse = CASpringAnimation(keyPath: "transform.scale")
                 pulse.damping = 7.5
                 pulse.duration = pulse.settlingDuration
-                //                print("duration: \(pulse.duration)")
+//                print("duration: \(pulse.duration)")
                 pulse.fromValue = 1.25
                 pulse.toValue = 1.0
                 layer?.addAnimation(pulse, forKey: nil)
@@ -348,5 +348,18 @@ extension ViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(textField: UITextField) {
         print(info.layer.animationKeys())
         info.layer.removeAnimationForKey("infoappear")
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        if textField.text?.characters.count < 5 {
+            // add animations here
+            let jump = CASpringAnimation(keyPath: "position.y")
+            
+            jump.fromValue = textField.layer.position.y + 10.0
+            jump.toValue = textField.layer.position.y
+            jump.duration = jump.settlingDuration
+            print("jumpDuration \(jump.duration)")
+            textField.layer.addAnimation(jump, forKey: nil)
+        }
     }
 }
