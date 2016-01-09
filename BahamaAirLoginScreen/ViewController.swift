@@ -17,25 +17,6 @@ func delay(seconds seconds: Double, completion:()->()){
     }
 }
 
-// New top level function for login button
-func tintBackgroundColor(layer layer: CALayer, toColor: UIColor){
-    let tint = CABasicAnimation(keyPath: "backgroundColor")
-    tint.fromValue = layer.backgroundColor
-    tint.toValue = toColor.CGColor
-    tint.duration = 1.0
-    layer.addAnimation(tint, forKey: nil)
-    layer.backgroundColor = toColor.CGColor
-}
-
-func roundCorners(layer layer: CALayer, toRadius: CGFloat){
-    let round = CABasicAnimation(keyPath: "cornerRadius")
-    round.fromValue = layer.cornerRadius
-    round.toValue = toRadius
-    round.duration = 0.33
-    layer.addAnimation(round, forKey: nil)
-    layer.cornerRadius = toRadius
-}
-
 class ViewController: UIViewController {
     
     @IBOutlet weak var heading: UILabel!
@@ -218,9 +199,7 @@ class ViewController: UIViewController {
         
         //3rd new code
         let tintColor = UIColor(red: 0.85, green: 0.83, blue: 0.45, alpha: 1.0)
-        tintBackgroundColor(layer: loginButton.layer,
-            toColor: tintColor)
-        
+        tintBackgroundColor(layer: loginButton.layer, toColor: tintColor)
         roundCorners(layer: loginButton.layer, toRadius: 25.0)
     }
     
@@ -278,8 +257,8 @@ class ViewController: UIViewController {
             
             }, completion: {_ in
                 let tintColor = UIColor(red: 0.63, green: 0.84, blue: 0.35, alpha: 1.0)
-                tintBackgroundColor(layer: self.loginButton.layer, toColor: tintColor)
-                roundCorners(layer: self.loginButton.layer, toRadius: 10.0)
+                self.tintBackgroundColor(layer: self.loginButton.layer, toColor: tintColor)
+                self.roundCorners(layer: self.loginButton.layer, toRadius: 25.0)
         })
         
         //reverse login button animation 1
@@ -307,6 +286,27 @@ class ViewController: UIViewController {
         cloudMove.setValue(layer, forKey: "layer")
         
         layer.addAnimation(cloudMove, forKey: nil)
+    }
+    
+    func tintBackgroundColor(layer layer: CALayer, toColor: UIColor) {
+        let tint = CASpringAnimation(keyPath: "backgroundColor")
+        tint.damping = 5.0
+        tint.initialVelocity = -10.0
+        tint.fromValue = layer.backgroundColor
+        tint.toValue = toColor.CGColor
+        tint.duration = tint.settlingDuration
+        layer.addAnimation(tint, forKey: nil)
+        layer.backgroundColor = toColor.CGColor
+    }
+    
+    func roundCorners(layer layer: CALayer, toRadius: CGFloat) {
+        let round = CASpringAnimation(keyPath: "cornerRadius")
+        round.damping = 5.0
+        round.fromValue = layer.cornerRadius
+        round.toValue = toRadius
+        round.duration = round.settlingDuration
+        layer.addAnimation(round, forKey: nil)
+        layer.cornerRadius = toRadius
     }
     
     override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
