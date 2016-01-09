@@ -188,16 +188,12 @@ class ViewController: UIViewController {
             self.loginButton.center.y += 60.0
             }, completion: nil)
         
-        //This has been removed and replaced with the code at the bottom of this method
-        //3rd user interaction animation: animate button's background color tint
-        //        self.loginButton.backgroundColor = UIColor(red: 0.85, green: 0.83, blue: 0.45, alpha: 1.0)
-        
         //4th user interaction animation: activity indicator spinner appears
         self.spinner.center = CGPoint(x: 40.0,
             y: self.loginButton.frame.size.height/2)
         self.spinner.alpha = 1.0
         
-        //3rd new code
+        //3rd user interaction animation: animate button's background color tint & cornerRadius
         let tintColor = UIColor(red: 0.85, green: 0.83, blue: 0.45, alpha: 1.0)
         tintBackgroundColor(layer: loginButton.layer, toColor: tintColor)
         roundCorners(layer: loginButton.layer, toRadius: 25.0)
@@ -213,7 +209,6 @@ class ViewController: UIViewController {
     func showMessage(index index: Int){
         label.text = messages[index]
         
-        //changed transition to TransitionFlipFromBottom... this transition presents the banner smooth/clean
         UIView.transitionWithView(status, duration: 0.33, options: [.CurveEaseOut, .TransitionFlipFromBottom], animations: {
             self.status.hidden = false
             }, completion: {_ in
@@ -243,6 +238,13 @@ class ViewController: UIViewController {
     }
     
     func resetForm(){
+        let wobble = CAKeyframeAnimation(keyPath: "transform.rotation")
+        wobble.duration = 0.25
+        wobble.repeatCount = 4
+        wobble.values = [0.0, -M_PI_4/4, 0.0, M_PI_4, 0.0]
+        wobble.keyTimes = [0.0, 0.25, 0.5, 0.75, 1.0]
+        heading.layer.addAnimation(wobble, forKey: nil)
+        
         UIView.transitionWithView(status, duration: 0.2, options: [.TransitionFlipFromTop], animations: {
             self.status.hidden = true
             self.status.center = self.statusPosition
@@ -251,9 +253,6 @@ class ViewController: UIViewController {
         UIView.animateWithDuration(0.2, delay: 0.0, options: [], animations: {
             self.spinner.center = CGPoint(x: -20.0, y: 16.0)
             self.spinner.alpha = 0.0
-            
-            //this line of code is being removed and replaced with the code in completion:
-            //                self.loginButton.backgroundColor = UIColor(red: 0.63, green: 0.84, blue: 0.35, alpha: 1.0)
             
             }, completion: {_ in
                 let tintColor = UIColor(red: 0.63, green: 0.84, blue: 0.35, alpha: 1.0)
@@ -321,7 +320,6 @@ class ViewController: UIViewController {
                 let pulse = CASpringAnimation(keyPath: "transform.scale")
                 pulse.damping = 7.5
                 pulse.duration = pulse.settlingDuration
-//                print("duration: \(pulse.duration)")
                 pulse.fromValue = 1.25
                 pulse.toValue = 1.0
                 layer?.addAnimation(pulse, forKey: nil)
@@ -362,7 +360,6 @@ extension ViewController: UITextFieldDelegate {
             jump.fromValue = textField.layer.position.y + 1.0
             jump.toValue = textField.layer.position.y
             jump.duration = jump.settlingDuration
-//            print("jumpDuration \(jump.duration)")
             textField.layer.addAnimation(jump, forKey: nil)
             
             textField.layer.borderWidth = 3.0
